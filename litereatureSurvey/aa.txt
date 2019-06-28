@@ -1,0 +1,107 @@
+Social networking services have the hidden potential to reveal valuable insights when statistical analysis is applied to their unstructured data
+This article presents research investigating the use of spatiotemporally tagged tweets for crime prediction
+We then incorporate these topics into a crime prediction model and show that, for 19 of the 25 crime types we studied, the addition
+of Twitter data improves crime prediction performance versus a standard approach based on kernel
+density estimation conventional crime prediction models that employ Twitter data have limitations on describing the real time reflection of criminal incidents. Polarities of sentiment and possible weather factors have the ability to improve the accuracy and maximize the predictive power of crime models
+In order to achieve our goal, we set four objectives: 
+(1) to analyze textual content in Twitter data by using sentiment analysis to score the positivity/negativity of tweets and their trends in different neighborhoods. 
+(2) to identify the weather factors that serve as significant indicators to predict certain crime incidents. 
+(3) to employ algorithm more efficient than existing kernel density estimation (KDE) to derive the distribution of crime incidents in the Chicago area.
+(4) to build and evaluate the predictive model by adding Twitter-derived data and weather factors to criminal incident data.
+ Recent research has shown that tweets can be used to predict
+various large-scale events like elections [3], infectious disease outbreaks
+[4], and national revolutions [5]. The essential hypothesis is that the location,
+timing, and content of tweets are informative with regard to future
+events.
+However, there are many challenges to using Twitter as an information
+source for crime prediction. Tweets are notorious for (un)intentional
+misspellings, on-the-fly word invention, symbol use, and syntactic
+structures that often defy even the simplest computational treatments
+(e.g., word boundary identification) [6]. To make matters worse, Twitter
+imposes a 140-character limit on the length of each tweet, encouraging
+the use of these and other message shortening devices. Lastly, we are interested
+in predicting crime at a city-block resolution or finer, and it is not
+clear how tweets should be aggregated to support such analyses (prior
+work has investigated broader resolutions, for example, at the city or
+country levels)
+
+
+
+
+2. Related work
+2.1. Crime prediction-hotspot...............
+2.2. Prediction via social media
+
+
+evaluation and results
+We used MALLET to identify topic probabilities,
+configured with 5000 Gibbs sampling iterations and an optimization interval
+(how often to reestimate the α and β hyperparameters, see
+Fig. 4) of 10, but otherwise used the default MALLET parameters
+
+
+//methods used
+We used LibLinear [24] to estimate coefficients within the logistic regression
+model. To counter the effects of class imbalance (there are far more negative
+points than positive points), we set LibLinear's C parameter to N
+P
+,
+with N and P being the counts of negative and positive points in the training
+set, respectively. Model execution entailed (1) training the model on
+a 31-day window for crime type T, (2) making T predictions for the first
+day following the training window, and (3) sliding one day into the future
+and repeating. This mirrors a practical setup where a new prediction
+for T is run each day.
+. A surveillance
+plot measures the percentage of true T crimes during the prediction
+window (y-axis) that occur within the x% most threatened area according
+to the model's prediction for T.
+
+An optimal prediction sorts the 200-meter prediction squares in descending
+order of how many future crimes they will contain. This property
+makes surveillance plots appropriate for decision makers, who must allocate
+scarce resources (e.g., police patrols) across the geographic space
+
+
+
+
+conclusions and framework
+Prior to this research, the benefits of Twitter messages (or tweets)
+for crime prediction were largely unknown. Specifically, the implications
+of GPS-tagged tweets had not been addressed, and very few of
+the many possible crime types had been investigated. Moreover, performance
+comparisons with standard hot-spot models had not been performed.
+
+
+
+
+limitations of already available methods
+Tweet and network analysis: We have not analyzed the textual content
+of tweets beyond tokenization, part-of-speech tagging, and
+topic modeling. Digging deeper into the semantics of tweets could
+provide performance improvements compared to the models we
+have presented. For example, it would be interesting to analyze the
+predicate–argument structure of tweets in order to extract the
+events they describe and the actors in those events. We are not
+aware of such analyzers specifically designed for tweets, but many
+exist for standard newswire text and could be adapted to the Twitter
+domain [25].
+Temporal modeling: Our models do not properly account for temporal
+effects such as trends, lags, and periodicity. Intuitively, it makes sense
+that crime patterns could exhibit these behaviors and that Twitter
+content might be more predictive when message timestamps are
+taken into account. For example, one could identify trends within
+the topic proportions for a neighborhood and incorporate a trend variable
+(e.g., magnitude of increase or decrease) into the model.
+
+
+
+
+
+Data Collection
+The primary data source that we used for making a crime predictive model was Twitter data. We utilized tweets with GPS coordinates, which were generated within the Chicago city boundary from January 1st 2014 to Jan 31st, 2014 (n=1069804). The twitter posts we used came from the official Twitter streaming API, bounded with coordinates [-87.94,41.64] (South-West limit) and [-87.52, 42.02] (North-East limit) [9]. Figure 1 shows a kernel density estimation plot for tweets generated within the Chicago city boundary during the time period. In addition to Twitter data, Chicago criminal incidents data shows the historical trends of theft incidents occurred in Chicago. This data originated from the Chicago data portal website, which was developed by the Chicago Police Department by tracking theft incidents committed on spatial points indicated with specific latitude and longitude, and the time of the theft incidents [10]. These historical theft records within the boundary of the Chicago are from December 25th, 2013 to January 31st, 2014. The data contains 5395 theft incidents points. The last data we utilized was weather data. We collected this data from Weather Underground, which is one of the web sites that provide the history of weather forecast and the future forecast for Chicago [11]. The weather data contains information including minimum, mean, and maximum temperatures in Fahrenheit; dew point in Fahrenheit; humidity in % sea level pressure in Inches; visibility per Miles; wind speed in Mph; cloud cover indicated by 1 to 8; and events. Events give us information about sunny, rain, snow, and fog events on daily basis.
+
+In general, it is difficult to explain why crime types benefited more or
+less from the addition of Twitter topics. The topic modeling process is
+opaque and, similar to unsupervised clustering, it can be difficult to interpret
+the output. However, we did notice trends in our results.
